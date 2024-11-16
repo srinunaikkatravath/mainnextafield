@@ -260,7 +260,7 @@
             } else if (user.role === "board_of_director") {
               window.location.href = "nextafield/index.html"; // Board of Director redirection
             } else if (user.role === "intern") {
-              window.location.href = `intern/${user.email}.html`; // Intern redirection
+              window.location.href = "nextafield/index.html"; // Intern redirection
             }
           }, 1000);
         } else {
@@ -270,22 +270,7 @@
       }
     
       // Auto-check access (in case user accesses this page directly)
-      document.addEventListener("DOMContentLoaded", () => {
-        const loggedInUser = sessionStorage.getItem("loggedInUser");
-        const userRole = sessionStorage.getItem("userRole");
-    
-        if (loggedInUser) {
-          if (userRole === "admin") {
-            window.location.href = "nextafield/index.html"; // Admin redirection
-          } else if (userRole === "employee") {
-            window.location.href = "nextafield/index.html"; // Employee redirection
-          } else if (userRole === "board_of_director") {
-            window.location.href = "nextafield/index.html"; // Board of Director redirection
-          } else if (userRole === "intern") {
-            window.location.href = `intern/${loggedInUser}.html`; // Intern redirection
-          }
-        }
-      });
+      
     </script>
     
   </body>
