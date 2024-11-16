@@ -78,7 +78,7 @@
                 <a class="nav-link" href="team.html">Team</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.html"> <i class="fa fa-user" aria-hidden="true"></i> Join</a>
+                <a class="nav-link" href="login.html"> <i class="fa fa-user" aria-hidden="true"></i> Login</a>
               </li>
               
             </ul>
@@ -218,49 +218,40 @@
     </div>
 
     <script>
-      // User database
+      // Users database with different roles
       const users = [
-        { email: "CEO24001", password: "1234", role: "nextafield" },
-        { email: "user2@example.com", password: "password2", role: "nextafield" },
-        { email: "user3@example.com", password: "password3", role: "nextafield" },
-        { email: "NAI24001", password: "1234", role: "general" },
-        { email: "user5@example.com", password: "password5", role: "general" }
+        { email: "admin@nextafield.com", password: "admin123", role: "admin", name: "Admin" },
+        { email: "intern1", password: "intern123", role: "intern", name: "Intern 1" },
+        { email: "intern2@nextafield.com", password: "intern123", role: "intern", name: "Intern 2" },
+        { email: "employee1@nextafield.com", password: "employee123", role: "employee", name: "Employee 1" },
+        { email: "employee2@nextafield.com", password: "employee123", role: "employee", name: "Employee 2" }
       ];
   
-      // Login function
       function login() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const message = document.getElementById("message");
   
-        // Find matching user
-        const user = users.find(
-          (user) => user.email === email && user.password === password
-        );
+        const user = users.find(user => user.email === email && user.password === password);
   
         if (user) {
-          // Save login details
-          sessionStorage.setItem("loggedInUser", email);
+          sessionStorage.setItem("loggedInUser", user.email);
+          sessionStorage.setItem("userName", user.name);
           sessionStorage.setItem("userRole", user.role);
   
-          // Redirect based on role
-          if (user.role === "nextafield") {
-            message.style.color = "green";
-            message.textContent = "Login successful! Redirecting to Next Afield...";
-            setTimeout(() => {
+          message.style.color = "green";
+          message.textContent = "Login successful! Redirecting...";
+  
+          setTimeout(() => {
+            if (user.role === "admin" || user.role === "employee") {
               window.location.href = "nextafield/index.html";
-            }, 1000);
-          } else {
-            message.style.color = "green";
-            message.textContent = "Login successful! Redirecting to General Index...";
-            setTimeout(() => {
-              window.location.href = "index.html";
-            }, 1000);
-          }
+            } else if (user.role === "intern") {
+              window.location.href = `intern/${user.email.split('@')[0]}.html`;
+            }
+          }, 1000);
         } else {
-          // Show error message
           message.style.color = "red";
-          message.textContent = "Invalid email or password. Please try again.";
+          message.textContent = "Invalid credentials. Please try again.";
         }
       }
   
@@ -270,15 +261,14 @@
         const userRole = sessionStorage.getItem("userRole");
   
         if (loggedInUser) {
-          if (userRole === "nextafield") {
+          if (userRole === "admin" || userRole === "employee") {
             window.location.href = "nextafield/index.html";
-          } else if (userRole === "general") {
-            window.location.href = "index.html";
+          } else if (userRole === "intern") {
+            window.location.href = `intern/${loggedInUser.split('@')[0]}.html`;
           }
         }
       });
     </script>
-    
-      
   </body>
-</html>
+  
+  </html>
