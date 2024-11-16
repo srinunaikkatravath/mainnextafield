@@ -152,7 +152,8 @@
         { email: "NAEMP24009", password: "employee123", role: "employee", name: "Employee 9" },
         { email: "NAEMP24010", password: "employee123", role: "employee", name: "Employee 10" },
         { email: "NABOD24001", password: "director123", role: "board_of_director", name: "Board Director 1" },
-        { email: "NABOD24002", password: "director123", role: "board_of_director", name: "Board Director 2" }
+        { email: "NABOD24002", password: "director123", role: "board_of_director", name: "Board Director 2" },
+        { email: "NAI24001", password: "intern123", role: "intern", name: "Intern 1" }  // Added Intern credentials
       ];
     
       function login() {
@@ -179,6 +180,9 @@
             } else if (user.role === "board_of_director") {
               // Board of Director redirection based on user email, simplified path
               window.location.href = `employee/boardofdirector/${user.email}.html`; // Redirect to board of director page in 'boardofdirector' folder
+            } else if (user.role === "intern") {
+              // Intern redirection based on user email
+              window.location.href = `intern/${user.email}.html`; // Redirect to intern page in 'intern' folder
             }
           }, 1000);
         } else {
@@ -186,8 +190,11 @@
           message.textContent = "Invalid credentials. Please try again.";
         }
       }
+
+      
     
       // Auto-check access (in case user accesses this page directly)
+      <!--
       document.addEventListener("DOMContentLoaded", () => {
         const loggedInUser = sessionStorage.getItem("loggedInUser");
         const userRole = sessionStorage.getItem("userRole");
@@ -202,6 +209,8 @@
           }
         }
       });
+      -->
+        
     </script>
     
   </body>
