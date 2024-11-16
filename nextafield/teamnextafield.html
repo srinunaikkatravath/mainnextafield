@@ -40,67 +40,23 @@
                   <li class="nav-item">
                     <a class="ud-menu-scroll" href="index.html">Home</a>
                   </li>
-<!--
                   <li class="nav-item">
                     <a class="ud-menu-scroll" href="about.html">About</a>
                   </li>
                   <li class="nav-item">
                     <a class="ud-menu-scroll" href="whyus.html">Why Us</a>
                   </li>
-                  
                   <li class="nav-item">
                     <a class="ud-menu-scroll" href="contact.html">Contact</a>
                   </li>
--->
-                  <!--
-                  <li class="nav-item nav-item-has-children">
-                    <a href="javascript:void(0)"> Pages </a>
-                    <ul class="ud-submenu">
-                      <li class="ud-submenu-item">
-                        <a href="about.html" class="ud-submenu-link">
-                          About Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="whyus.html" class="ud-submenu-link">
-                          Why Choose Us Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="contact.html" class="ud-submenu-link">
-                          Contact Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="blog.html" class="ud-submenu-link">
-                          Blog Grid Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="blog-details.html" class="ud-submenu-link">
-                          Blog Details Page
-                        </a>
-                      </li>
-                      <li class="ud-submenu-item">
-                        <a href="teamnextafield.html" class="ud-submenu-link">Team Next Afield</a>
-                      </li>
-                    </ul>
-                  </li>
-
-    
-                  
                 </ul>
               </div>
--->
 
-                  
-        <!--
-                  <div class="navbar-btn d-none d-sm-inline-block">
+              <div class="navbar-btn d-none d-sm-inline-block">
                 <a class="ud-main-btn ud-white-btn" href="login.html">
                   Sign In
                 </a>
               </div>
-                  -->
             </nav>
           </div>
         </div>
@@ -108,97 +64,46 @@
     </header>
     <!-- ====== Header End ====== -->
 
-    <!-- ====== Banner Start ====== -->
-    <section class="ud-page-banner">
+    <!-- ====== Login Section Start ====== -->
+    <section class="ud-login">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="ud-banner-content">
-              <h1>Welcome to Next Afield!</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ====== Banner End ====== -->
-
-    <!-- ====== Error 404 Start ====== -->
-    <section class="ud-404">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="ud-404-wrapper">
-              <div class="ud-404-content">
-                <h2 class="ud-404-title">Next Afield</h2>
-                <h5 class="ud-404-subtitle">
-                  Agriculture Services and Solutions
-                </h5>
-                <ul class="ud-404-links">
-                  <li>
-                    <a href="nextafieldlogin.html">Team Next Afield Login</a>
-                  </li>
-                  <li>
-                    <a href="login.html">Intern Login</a>
-                  </li>
-                </ul>
+            <div class="ud-login-wrapper">
+              <div class="ud-login-logo">
+                <img src="assets/images/logo/logo-2.png" alt="logo" />
               </div>
+              <form class="ud-login-form">
+                <div class="ud-form-group">
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="Email/username"
+                  />
+                </div>
+                <div class="ud-form-group">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="*********"
+                  />
+                </div>
+                <p id="message"></p>
+                <div class="ud-form-group">
+                  <button type="button" class="ud-main-btn w-100" onclick="login()">Login</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- ====== Error 404 End ====== -->
+    <!-- ====== Login Section End ====== -->
 
     <!-- ====== Footer Start ====== -->
     <footer class="ud-footer wow fadeInUp" data-wow-delay=".15s">
-      <div class="shape shape-1">
-        <img src="assets/images/footer/shape-1.svg" alt="shape" />
-      </div>
-      <div class="shape shape-2">
-        <img src="assets/images/footer/shape-2.svg" alt="shape" />
-      </div>
-      <div class="shape shape-3">
-        <img src="assets/images/footer/shape-3.svg" alt="shape" />
-      </div>
-      <div class="ud-footer-widgets">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-3 col-lg-4 col-md-6">
-              <div class="ud-widget">
-                <a href="index.html" class="ud-footer-logo">
-                  <span class="fw-bold text-white startup-logo">Next Afield</span>
-                </a>
-                <p>Agriculture Services and Solutions</p>
-                <p class="ud-widget-desc">
-                  Empowering modern agriculture with innovative, sustainable solutions.
-                </p>
-              </div>
-            </div>
-
-            
-            
-            <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
-              <div class="ud-widget">
-                <h5 class="ud-widget-title">Our Partners</h5>
-                <ul class="ud-widget-links">
-                  <li>
-                    <a
-                      href="https://manapanta.com/"
-                      rel="nofollow noopner"
-                      target="_blank"
-                      >Mana Panta 
-                      <!-- <img
-                        src="assets/images/footer/brands/manapanta.png"
-                        alt="ayroui"
-                      />
-                  -->
-                    </a>
-                  </li>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="ud-footer-bottom">
         <div class="container">
           <div class="row">
@@ -217,7 +122,7 @@
             </div>
             <div class="col-md-4">
               <p class="ud-footer-bottom-right">
-                &copy; 2024 Next Afield. <br>All Rights Reserved.
+                &copy; 2024 Next Afield. <br />All Rights Reserved.
               </p>
             </div>
           </div>
@@ -226,15 +131,78 @@
     </footer>
     <!-- ====== Footer End ====== -->
 
-    <!-- ====== Back To Top Start ====== -->
-    <a href="javascript:void(0)" class="back-to-top">
-      <i class="lni lni-chevron-up"> </i>
-    </a>
-    <!-- ====== Back To Top End ====== -->
-
     <!-- ====== All Javascript Files ====== -->
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/wow.min.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <!-- ====== Login Script ====== -->
+    <script>
+      // Users database with different roles
+      const users = [
+        { email: "NAFCE01", password: "@Naik2001", role: "admin", name: "Admin" },
+        { email: "NAEMP24001", password: "employee123", role: "employee", name: "Employee 1" },
+        { email: "NAEMP24002", password: "employee123", role: "employee", name: "Employee 2" },
+        { email: "NAEMP24003", password: "employee123", role: "employee", name: "Employee 3" },
+        { email: "NAEMP24004", password: "employee123", role: "employee", name: "Employee 4" },
+        { email: "NAEMP24005", password: "employee123", role: "employee", name: "Employee 5" },
+        { email: "NAEMP24006", password: "employee123", role: "employee", name: "Employee 6" },
+        { email: "NAEMP24007", password: "employee123", role: "employee", name: "Employee 7" },
+        { email: "NAEMP24008", password: "employee123", role: "employee", name: "Employee 8" },
+        { email: "NAEMP24009", password: "employee123", role: "employee", name: "Employee 9" },
+        { email: "NAEMP24010", password: "employee123", role: "employee", name: "Employee 10" },
+        { email: "NABOD24001", password: "director123", role: "board_of_director", name: "Board Director 1" },
+        { email: "NABOD24002", password: "director123", role: "board_of_director", name: "Board Director 2" }
+      ];
+    
+      function login() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
+    
+        const user = users.find(user => user.email === email && user.password === password);
+    
+        if (user) {
+          sessionStorage.setItem("loggedInUser", user.email);
+          sessionStorage.setItem("userName", user.name);
+          sessionStorage.setItem("userRole", user.role);
+    
+          message.style.color = "green";
+          message.textContent = "Login successful! Redirecting...";
+    
+          setTimeout(() => {
+            if (user.role === "admin") {
+              window.location.href = "admin/index.html"; // Admin redirection
+            } else if (user.role === "employee") {
+              // Employee redirection based on user email, simplified path
+              window.location.href = `employee/${user.email}.html`; // Redirect to employee page in 'employee' folder
+            } else if (user.role === "board_of_director") {
+              // Board of Director redirection based on user email, simplified path
+              window.location.href = `employee/boardofdirector/${user.email}.html`; // Redirect to board of director page in 'boardofdirector' folder
+            }
+          }, 1000);
+        } else {
+          message.style.color = "red";
+          message.textContent = "Invalid credentials. Please try again.";
+        }
+      }
+    
+      // Auto-check access (in case user accesses this page directly)
+      document.addEventListener("DOMContentLoaded", () => {
+        const loggedInUser = sessionStorage.getItem("loggedInUser");
+        const userRole = sessionStorage.getItem("userRole");
+    
+        if (loggedInUser) {
+          if (userRole === "admin") {
+            window.location.href = "admin/index.html"; // Admin redirection
+          } else if (userRole === "employee") {
+            window.location.href = `employee/${loggedInUser}.html`; // Redirect to employee page in 'employee' folder
+          } else if (userRole === "board_of_director") {
+            window.location.href = `employee/boardofdirector/${loggedInUser}.html`; // Redirect to board of director page in 'boardofdirector' folder
+          }
+        }
+      });
+    </script>
+    
   </body>
 </html>
