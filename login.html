@@ -78,7 +78,7 @@
                 <a class="nav-link" href="team.html">Team</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="login.html"> <i class="fa fa-user" aria-hidden="true"></i> Login</a>
+                <a class="nav-link" href="login.html"> <i class="fa fa-user" aria-hidden="true"></i> Join</a>
               </li>
               
             </ul>
@@ -220,33 +220,47 @@
     <script>
       // Users database with different roles
       const users = [
-        { email: "admin@nextafield.com", password: "admin123", role: "admin", name: "Admin" },
-        { email: "intern1", password: "intern123", role: "intern", name: "Intern 1" },
-        { email: "intern2@nextafield.com", password: "intern123", role: "intern", name: "Intern 2" },
-        { email: "employee1@nextafield.com", password: "employee123", role: "employee", name: "Employee 1" },
-        { email: "employee2@nextafield.com", password: "employee123", role: "employee", name: "Employee 2" }
+        { email: "NAFCE01", password: "@Naik2001", role: "admin", name: "Admin" },
+        { email: "NAEMP24001", password: "employee123", role: "employee", name: "Employee 1" },
+        { email: "NAEMP24002", password: "employee123", role: "employee", name: "Employee 2" },
+        { email: "NAEMP24003", password: "employee123", role: "employee", name: "Employee 3" },
+        { email: "NAEMP24004", password: "employee123", role: "employee", name: "Employee 4" },
+        { email: "NAEMP24005", password: "employee123", role: "employee", name: "Employee 5" },
+        { email: "NAEMP24006", password: "employee123", role: "employee", name: "Employee 6" },
+        { email: "NAEMP24007", password: "employee123", role: "employee", name: "Employee 7" },
+        { email: "NAEMP24008", password: "employee123", role: "employee", name: "Employee 8" },
+        { email: "NAEMP24009", password: "employee123", role: "employee", name: "Employee 9" },
+        { email: "NAEMP24010", password: "employee123", role: "employee", name: "Employee 10" },
+        { email: "NABOD24001", password: "director123", role: "board_of_director", name: "Board Director 1" },
+        { email: "NABOD24002", password: "director123", role: "board_of_director", name: "Board Director 2" },
+        { email: "NAI24001", password: "intern123", role: "intern", name: "Intern 1" }, // Intern login
+        { email: "NAI24002", password: "intern123", role: "intern", name: "Intern 2" }  // Another intern login
       ];
-  
+    
       function login() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const message = document.getElementById("message");
-  
+    
         const user = users.find(user => user.email === email && user.password === password);
-  
+    
         if (user) {
           sessionStorage.setItem("loggedInUser", user.email);
           sessionStorage.setItem("userName", user.name);
           sessionStorage.setItem("userRole", user.role);
-  
+    
           message.style.color = "green";
           message.textContent = "Login successful! Redirecting...";
-  
+    
           setTimeout(() => {
-            if (user.role === "admin" || user.role === "employee") {
-              window.location.href = "nextafield/index.html";
+            if (user.role === "admin") {
+              window.location.href = "nextafield/index.html"; // Admin redirection
+            } else if (user.role === "employee") {
+              window.location.href = "nextafield/index.html"; // Employee redirection
+            } else if (user.role === "board_of_director") {
+              window.location.href = "nextafield/index.html"; // Board of Director redirection
             } else if (user.role === "intern") {
-              window.location.href = `intern/${user.email.split('@')[0]}.html`;
+              window.location.href = `intern/${user.email}.html`; // Intern redirection
             }
           }, 1000);
         } else {
@@ -254,21 +268,26 @@
           message.textContent = "Invalid credentials. Please try again.";
         }
       }
-  
+    
       // Auto-check access (in case user accesses this page directly)
       document.addEventListener("DOMContentLoaded", () => {
         const loggedInUser = sessionStorage.getItem("loggedInUser");
         const userRole = sessionStorage.getItem("userRole");
-  
+    
         if (loggedInUser) {
-          if (userRole === "admin" || userRole === "employee") {
-            window.location.href = "nextafield/index.html";
+          if (userRole === "admin") {
+            window.location.href = "nextafield/index.html"; // Admin redirection
+          } else if (userRole === "employee") {
+            window.location.href = "nextafield/index.html"; // Employee redirection
+          } else if (userRole === "board_of_director") {
+            window.location.href = "nextafield/index.html"; // Board of Director redirection
           } else if (userRole === "intern") {
-            window.location.href = `intern/${loggedInUser.split('@')[0]}.html`;
+            window.location.href = `intern/${loggedInUser}.html`; // Intern redirection
           }
         }
       });
     </script>
+    
   </body>
   
   </html>
