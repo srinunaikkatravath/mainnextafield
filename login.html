@@ -271,23 +271,21 @@
     
       // Auto-check access (in case user accesses this page directly)
       document.addEventListener("DOMContentLoaded", () => {
-        const loggedInUser = sessionStorage.getItem("loggedInUser");
-        const userRole = sessionStorage.getItem("userRole");
-    
-        if (loggedInUser) {
-          if (userRole === "admin") {
-            window.location.href = "admin/index.html"; // Admin redirection
-          } else if (userRole === "employee") {
-            window.location.href = `employee/${loggedInUser}.html`; // Redirect to employee page in 'employee' folder
-          } else if (userRole === "board_of_director") {
-            window.location.href = `employee/boardofdirector/${loggedInUser}.html`; // Redirect to board of director page in 'boardofdirector' folder
-          }
-          else if (user.role === "intern") {
-              // Intern redirection based on user email
-              window.location.href = `intern/${loggedInUser}.html`; // Redirect to intern page in 'intern' folder
-            }
-        }
-      });
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    const userRole = sessionStorage.getItem("userRole");
+
+    if (loggedInUser) {
+      if (userRole === "admin") {
+        window.location.href = "admin/index.html"; // Admin redirection
+      } else if (userRole === "employee") {
+        window.location.href = `employee/${loggedInUser}.html`; // Employee redirection
+      } else if (userRole === "board_of_director") {
+        window.location.href = `employee/boardofdirector/${loggedInUser}.html`; // Board of Director redirection
+      } else if (userRole === "intern") {
+        window.location.href = `intern/${loggedInUser}.html`; // Intern redirection
+      }
+    }
+  });
       
     </script>
     
