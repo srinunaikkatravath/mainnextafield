@@ -23,6 +23,9 @@
         header h2 {
             margin: 10px 0;
         }
+        header h3 {
+            margin: 5px 0;
+        }
         nav {
             text-align: center;
             margin-top: 10px;
@@ -43,7 +46,7 @@
             padding: 20px;
         }
         .card {
-            background-color: white;
+            background-color: rgb(249, 249, 249);
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(87, 12, 12, 0.1);
             padding: 20px;
@@ -119,18 +122,18 @@
             display: block;
             width: 100%;
             text-align: center;
-            padding: 10px 15px;
+            padding: 10px 1px;
             margin-bottom: 10px;
             font-size: 1em;
-            color: white;
-            background-color: #0e2d33;
+            color: rgb(255, 255, 255);
+            background-color: #0a8398;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
         }
         .button.doubt {
-            background-color: #1ababd;
+            background-color: #0adbb5;
         }
         .button:hover {
             opacity: 0.9;
@@ -158,7 +161,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: conic-gradient(#21cba6 0% 90%, #dddddd 90% 100%);
+            background: conic-gradient(#21cba6 0% 0%, #dddddd 0% 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -168,6 +171,29 @@
             font-size: 1.5em;
             color: #333;
         }
+
+        /* Popup Message */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #4CAF50;
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            z-index: 1000;
+        }
+        .popup.show {
+            display: block;
+        }
+
+        /* Highlight Attendance Card */
+        .highlight {
+            background-color: #d0eae4; /* Light green background */
+        }
     </style>
     <script>
         function getGreeting() {
@@ -176,28 +202,46 @@
             else if (hours < 18) return "Good Afternoon!";
             else return "Good Evening!";
         }
+
+        function updateAttendance() {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric'
+            });
+            document.getElementById('attendance-time').innerText = formattedDate;
+            document.getElementById('attendance-status').innerText = "Present";
+            
+            // Highlight attendance section with green color
+            document.querySelector('.attendance-card').classList.add('highlight');
+            
+            // Show popup message
+            document.querySelector('.popup').classList.add('show');
+            
+            // Hide the popup after 3 seconds
+            setTimeout(() => {
+                document.querySelector('.popup').classList.remove('show');
+            }, 3000);
+        }
+
         window.onload = () => {
             document.getElementById('greeting').innerText = getGreeting();
+            updateAttendance();  // Call the function to mark attendance when the page loads
         };
 
         // Log out function
         function logout() { 
-    // Assuming you have some way to handle session ending, like clearing cookies or tokens
-    // For example:
-    // document.cookie = "user_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    // or
-    // localStorage.removeItem("user_session");
-
-    alert("You have been logged out!");
-    window.location.href = "nextafield-main/index.html"; // Redirect to the nextafield-main index page
-}
-
+            alert("You have been logged out!");
+            window.location.href = "nextafield-main/index.html"; // Redirect to the nextafield-main index page
+        }
     </script>
 </head>
 <body> 
     <header>
         <h1>Next Afield</h1>
         <h2>Agriculture Services and Solutions</h2>
+        <h3 id="greeting"></h3> <!-- Greeting message will be displayed here -->
+
         <button class="logout-btn" onclick="logout()">Log Out</button>
     </header>
 
@@ -205,8 +249,10 @@
     <div class="dashboard">
         <!-- Profile Card -->
         <div class="card profile">
-            <img id="profile-picture" src="images/ceo.png" alt="Profile Picture">            <h2>Srinu Naik Katravath</h2>
-            <p>Intern - Full Stack Development</p>
+            <img src="images/NAI24003.jpg" alt="Profile Picture">
+            <h2>Mutchi Divya </h2>
+            <p><strong>Intern ID:</strong> <span id="employeeID">NAI24003</span></p>
+            <p>Intern - Full Stack Development & AI Internship</p>
             <p>Duration: 6 Months</p>
         </div>
 
@@ -214,31 +260,32 @@
         <div class="card">
             <h2>Current Progress</h2>
             <div class="progress-circle">
-                <span>90%</span>
+                <span>0%</span>
             </div>
-            <p>Score: 90/100</p>
+            <p>Score: 0/100</p>
+            <p>Complete Week 1 Performance Test</p>
         </div>
 
         <!-- Attendance Section -->
-        <div class="card">
+        <div class="card attendance-card">
             <h2>Attendance</h2>
             <div class="attendance-list">
-                <p>Day 1: Present</p>
-                <p>Day 2: Present</p>
-                <p>Day 3: Absent</p>
-                <p>Day 4: Present</p>
-                <p>Day 4: Present</p>
+                <p id="attendance-time"></p>
+                <p id="attendance-status"></p>
             </div>
+            <button onclick="updateAttendance()">Mark Attendance</button>
         </div>
 
         <!-- Internship Details Section -->
         <div class="card">
             <h2>Internship Details</h2>
-            <p>Project: Building Web Dashboards</p>
-            <!-- <p>Mentor: Jane Smith</p> -->
-            <p>Status: Ongoing</p>
+            <p>Full Stack Development & AI Internship</p>
+            <h3>Status: Ongoing</h3>
         </div>
     </div>
+
+    <!-- Popup Message -->
+    <div class="popup">Attendance marked successfully!</div>
 
     <!-- Education and Buttons Section -->
     <div class="education-and-buttons">
@@ -247,12 +294,21 @@
             <h2>Educational Details</h2>
             <ul>
                 <li><strong>Degree:</strong> B.Tech in Computer Science and Engineering</li>
-                <li><strong>Institution:</strong> Vignan's Institute of Information Technology</li>
-                <li><strong>Graduation Year:</strong> 2024</li>
+                <li><strong>Institution:</strong> Vignan's institute of engineering for women</li>
+                <li><strong>Graduation Year:</strong> 2026</li>
             </ul>
         </div>
 
         <!-- Buttons Section -->
+
+        <div class="section">
+            <h2>Internship Documens</h2>
+            <a href="#" class="button">Offer Letter</a>
+            <a href="#" class="button doubt">Internship Certificate</a>
+        </div>
+
+
+
         <div class="section">
             <h2>Actions</h2>
             <a href="#" class="button">Join Meeting</a>
@@ -492,3 +548,4 @@
   </footer>
 </body>
 </html>
+

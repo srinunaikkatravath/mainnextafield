@@ -3,495 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intern Dashboard</title>
+    <title>Board of Directors Dashboard</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-        header {
-            background-color: #20a8a8;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-        }
-        header h1 {
-            margin: 0;
-        }
-        header h2 {
-            margin: 10px 0;
-        }
-        nav {
-            text-align: center;
-            margin-top: 10px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 1.2em;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(87, 12, 12, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
-        .card h2 {
-            color: #260202;
-            margin: 0 0 10px;
-        }
-        .card p, .card a {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             color: #333;
-            margin: 5px 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
         }
-        .attendance-list {
-            text-align: left;
-            margin-top: 10px;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #00796b;
+            padding: 20px;
+            color: white;
+            width: 100%;
         }
-        .attendance-list p {
-            padding: 5px 0;
+
+        header h1 {
+            font-size: 1.8em;
         }
+
+        header button {
+            background-color: #d9534f;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header button:hover {
+            background-color: #c9302c;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 80px); /* Subtract header height */
+            overflow: auto;
+        }
+
+        .box {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        .box h2, .box h3 {
+            color: #00796b;
+        }
+
+        .box p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .profile-image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+        }
+
+        .join-meeting {
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .join-meeting:hover {
+            background-color: #004d40;
+        }
+
+        /* Right Side - Company Details */
+        .company-details {
+            margin-left: 20px;
+            width: 60%;
+            overflow-y: auto;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+        }
+
+        .modal-content input, .modal-content select, .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background-color: #004d40;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .board-btn {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .board-btn:hover {
+            background-color: #e67e22;
+        }
+
+        /* Board Modal */
+        .board-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .board-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+        }
+
+        .board-modal-content h3 {
+            margin-bottom: 15px;
+        }
+
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-        th, td {
+
+        table, th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+        }
+
+        th, td {
+            padding: 10px;
             text-align: left;
         }
+
         th {
-            background-color: #1b769a;
+            background-color: #00796b;
             color: white;
         }
-        footer {
-            background-color: #1f559c;
-            color: white;
-            text-align: center;
-            padding: 10px 20px;
-        }
-        .profile {
-            text-align: left;
-        }
-        .profile img {
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            margin-bottom: 10px;
-        }
-        .section {
-            margin: 20px;
-            background: #fff;
+
+        /* New Section Styles */
+        .company-policy,
+        .latest-updates,
+        .future-planning {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .section h2 {
-            color: #1b749a;
-            margin-bottom: 10px;
-        }
-        .buttons-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .education-and-buttons {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            padding: 20px;
-        }
-        .button {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            font-size: 1em;
-            color: white;
-            background-color: #0e2d33;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .button.doubt {
-            background-color: #1ababd;
-        }
-        .button:hover {
-            opacity: 0.9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
         }
 
-        /* Log Out Button */
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 15px;
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .logout-btn:hover {
-            opacity: 0.8;
+        .company-policy h2,
+        .latest-updates h2,
+        .future-planning h2 {
+            color: #00796b;
         }
 
-        /* Progress Circle */
-        .progress-circle {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: conic-gradient(#21cba6 0% 90%, #dddddd 90% 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 10px auto;
-        }
-        .progress-circle span {
-            font-size: 1.5em;
-            color: #333;
+        .company-policy p,
+        .latest-updates p,
+        .future-planning p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
         }
     </style>
-    <script>
-        function getGreeting() {
-            const hours = new Date().getHours();
-            if (hours < 12) return "Good Morning!";
-            else if (hours < 18) return "Good Afternoon!";
-            else return "Good Evening!";
-        }
-        window.onload = () => {
-            document.getElementById('greeting').innerText = getGreeting();
-        };
-
-        // Log out function
-        function logout() { 
-    // Assuming you have some way to handle session ending, like clearing cookies or tokens
-    // For example:
-    // document.cookie = "user_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    // or
-    // localStorage.removeItem("user_session");
-
-    alert("You have been logged out!");
-    window.location.href = "nextafield-main/index.html"; // Redirect to the nextafield-main index page
-}
-
-    </script>
 </head>
-<body> 
-    <header>
-        <h1>Next Afield</h1>
-        <h2>Agriculture Services and Solutions</h2>
-        <h3 id="greeting"></h3> <!-- Greeting message will be displayed here -->
+<body>
 
-        <button class="logout-btn" onclick="logout()">Log Out</button>
+    <header>
+        <h1 id="greetingMessage">Good Morning, <span id="directorName">Jane Smith</span></h1>
+        <button id="logoutBtn">Logout</button>
     </header>
 
-    <!-- Dashboard Section -->
-    <div class="dashboard">
-        <!-- Profile Card -->
-        <div class="card profile">
-            <img src="https://via.placeholder.com/80" alt="Profile Picture">
-            <h2>Srinu Naik Katravath</h2>
-            <p>Intern - Full Stack Development</p>
-            <p>Duration: 6 Months</p>
-        </div>
-
-        <!-- Progress Circle with Score -->
-        <div class="card">
-            <h2>Current Progress</h2>
-            <div class="progress-circle">
-                <span>90%</span>
+    <div class="container">
+        <!-- Left Side - Board Member Information -->
+        <div class="box" style="flex: 1;">
+            <div class="profile-image">
+                <img src="../images/nfi.png" alt="Profile Picture">
             </div>
-            <p>Score: 90/100</p>
+            <h2>Board Member Information</h2>
+            <p><strong>Director ID:</strong> <span id="directorID">001</span></p>
+            <p><strong>Email:</strong> <span id="directorEmail">jane.smith@company.com</span></p>
+            <p><strong>Phone:</strong> <span id="directorPhone">555-1234</span></p>
+            <p><strong>Role:</strong> <span id="directorRole">Chairperson</span></p>
+            <p><strong>Board Committee:</strong> <span id="directorCommittee">Strategic Oversight</span></p>
+            <button class="join-meeting" onclick="joinMeeting()">Join Board Meeting</button>
         </div>
 
-        <!-- Attendance Section -->
-        <div class="card">
-            <h2>Attendance</h2>
-            <div class="attendance-list">
-                <p>Day 1: Present</p>
-                <p>Day 2: Present</p>
-                <p>Day 3: Absent</p>
-                <p>Day 4: Present</p>
-                <p>Day 4: Present</p>
+        <!-- Right Side - Company Details -->
+        <div class="company-details">
+            <div class="box">
+                <h2>Company Details</h2>
+                <p><strong>Company Name:</strong> Next Afield</p>
+                <p><strong>CEO:</strong> <span id="ceoName">Srinu Naik Kattravath</span></p>
+                <p><strong>Mission:</strong> To revolutionize agriculture with innovative solutions that are sustainable and beneficial for farmers.</p>
+                <p><strong>Vision:</strong> To be a global leader in providing cutting-edge agricultural solutions to ensure food security.</p>
+                <p><strong>Founded:</strong> 2022</p>
+                <button class="board-btn" id="boardDetailsBtn">Board of Directors Details</button>
+            </div>
+
+            <!-- New Company Policies and Terms Section -->
+            <div class="company-policy">
+                <h2>Company Policies & Terms</h2>
+                <p>Our company values transparency, integrity, and sustainability. Please read our terms and policies carefully.</p>
+                <p><a href="#">Read Full Terms</a></p>
+            </div>
+
+            <!-- Latest Updates Section -->
+            <div class="latest-updates">
+                <h2>Latest Updates</h2>
+                <p>Stay updated with our latest innovations and projects. We are continuously improving our agricultural solutions to better serve our community.</p>
+                <p><a href="#">View All Updates</a></p>
+            </div>
+
+            <!-- Future Planning Section -->
+            <div class="future-planning">
+                <h2>Future Planning</h2>
+                <p>We are committed to expanding our reach globally and introducing new technologies in the agriculture industry. We aim to double our impact by 2025.</p>
+                <p><a href="#">Learn More</a></p>
             </div>
         </div>
+    </div>
 
-        <!-- Internship Details Section -->
-        <div class="card">
-            <h2>Internship Details</h2>
-            <p>Project: Building Web Dashboards</p>
-            <!-- <p>Mentor: Jane Smith</p> -->
-            <p>Status: Ongoing</p>
+    <!-- Modal for CEO Contact Form -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Contact the CEO</h3>
+            <form action="#" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
         </div>
     </div>
 
-    <!-- Education and Buttons Section -->
-    <div class="education-and-buttons">
-        <!-- Educational Details -->
-        <div class="section">
-            <h2>Educational Details</h2>
-            <ul>
-                <li><strong>Degree:</strong> B.Tech in Computer Science and Engineering</li>
-                <li><strong>Institution:</strong> Vignan's Institute of Information Technology</li>
-                <li><strong>Graduation Year:</strong> 2024</li>
-            </ul>
-        </div>
-
-        <!-- Buttons Section -->
-        <div class="section">
-            <h2>Actions</h2>
-            <a href="#" class="button">Join Meeting</a>
-            <a href="#" class="button doubt">Book a Doubt Clarification</a>
+    <!-- Modal for Board Details -->
+    <div class="board-modal" id="boardModal">
+        <div class="board-modal-content">
+            <span class="close" onclick="closeBoardModal()">&times;</span>
+            <h3>Board of Directors</h3>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>Chairperson</td>
+                    <td>jane.smith@company.com</td>
+                </tr>
+                <tr>
+                    <td>John Doe</td>
+                    <td>CEO</td>
+                    <td>john.doe@company.com</td>
+                </tr>
+            </table>
         </div>
     </div>
 
-    <!-- Daily Tasks Section -->
-    <div class="section">
-      <h2>Daily Tasks & Course Details</h2>
-      <table>
-          <thead>
-              <tr>
-                  <th>Week</th>
-                  <th>Day</th>
-                  <th>Task</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>Week 1 (Sept 30 - Oct 6)</td>
-                  <td>Day 1</td>
-                  <td>Research trending internship requirements (AI, Full Stack, Cloud, DevOps).</td>
-              </tr>
-              <tr>
-                  <td>Week 1 (Sept 30 - Oct 6)</td>
-                  <td>Day 2-3</td>
-                  <td>Set up environment: GitHub, VS Code, Docker, and Git workflows.</td>
-              </tr>
-              <tr>
-                  <td>Week 1 (Sept 30 - Oct 6)</td>
-                  <td>Day 4-5</td>
-                  <td>Learn HTML5 and CSS3 with a focus on mobile-first design and modern frameworks like TailwindCSS.</td>
-              </tr>
-              <tr>
-                  <td>Week 1 (Sept 30 - Oct 6)</td>
-                  <td>Day 6-7</td>
-                  <td>Start with JavaScript ES6+ features (let/const, arrow functions, promises) and build a static page for your project.</td>
-              </tr>
-              <tr>
-                  <td>Week 2 (Oct 7 - Oct 13)</td>
-                  <td>Day 1-2</td>
-                  <td>Study React.js basics (functional components, hooks).</td>
-              </tr>
-              <tr>
-                  <td>Week 2 (Oct 7 - Oct 13)</td>
-                  <td>Day 3</td>
-                  <td>Add dynamic UI with React Hooks and Context API.</td>
-              </tr>
-              <tr>
-                  <td>Week 2 (Oct 7 - Oct 13)</td>
-                  <td>Day 4-5</td>
-                  <td>Python: Start with NumPy, Pandas, and Matplotlib for data handling and visualization.</td>
-              </tr>
-              <tr>
-                  <td>Week 2 (Oct 7 - Oct 13)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Create a React.js dashboard for the Student Profile Management System, including basic navigation and design.</td>
-              </tr>
-              <tr>
-                  <td>Week 3 (Oct 14 - Oct 20)</td>
-                  <td>Day 1-3</td>
-                  <td>Learn Next.js for server-side rendering and improved SEO performance.</td>
-              </tr>
-              <tr>
-                  <td>Week 3 (Oct 14 - Oct 20)</td>
-                  <td>Day 4-5</td>
-                  <td>Implement Scikit-learn for basic machine learning algorithms (regression, classification).</td>
-              </tr>
-              <tr>
-                  <td>Week 3 (Oct 14 - Oct 20)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Create a login page using Next.js and set up user authentication with Firebase Auth or JWT.</td>
-              </tr>
-              <tr>
-                  <td>Week 4 (Oct 21 - Oct 27)</td>
-                  <td>Day 1-3</td>
-                  <td>Learn Node.js with Express.js to set up a backend for your project.</td>
-              </tr>
-              <tr>
-                  <td>Week 4 (Oct 21 - Oct 27)</td>
-                  <td>Day 4-5</td>
-                  <td>Implement MongoDB (NoSQL) as a database for handling student profiles and course data.</td>
-              </tr>
-              <tr>
-                  <td>Week 4 (Oct 21 - Oct 27)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Set up REST APIs for user profile management and integrate student attendance and marks modules.</td>
-              </tr>
-              <tr>
-                  <td>Week 5 (Oct 28 - Nov 3)</td>
-                  <td>Day 1-2</td>
-                  <td>Study GraphQL for building flexible and efficient APIs.</td>
-              </tr>
-              <tr>
-                  <td>Week 5 (Oct 28 - Nov 3)</td>
-                  <td>Day 3</td>
-                  <td>Learn Mongoose to manage MongoDB schema and validation.</td>
-              </tr>
-              <tr>
-                  <td>Week 5 (Oct 28 - Nov 3)</td>
-                  <td>Day 4-5</td>
-                  <td>Implement K-means clustering in Python to group students by performance.</td>
-              </tr>
-              <tr>
-                  <td>Week 5 (Oct 28 - Nov 3)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Add a student grouping feature using AI-based clustering in the system.</td>
-              </tr>
-              <tr>
-                  <td>Week 6 (Nov 4 - Nov 10)</td>
-                  <td>Day 1-2</td>
-                  <td>Implement Redis for caching student data to improve backend performance.</td>
-              </tr>
-              <tr>
-                  <td>Week 6 (Nov 4 - Nov 10)</td>
-                  <td>Day 3-4</td>
-                  <td>Explore TensorFlow or PyTorch for building neural network models for student performance prediction.</td>
-              </tr>
-              <tr>
-                  <td>Week 6 (Nov 4 - Nov 10)</td>
-                  <td>Day 5-7</td>
-                  <td>Project: Use AI to recommend courses and projects to students based on their skills, attendance, and performance.</td>
-              </tr>
-              <tr>
-                  <td>Week 7 (Nov 11 - Nov 17)</td>
-                  <td>Day 1-3</td>
-                  <td>Learn Docker to containerize your project for easy deployment and consistency.</td>
-              </tr>
-              <tr>
-                  <td>Week 7 (Nov 11 - Nov 17)</td>
-                  <td>Day 4-5</td>
-                  <td>Learn Kubernetes basics for orchestrating Docker containers in a microservices architecture.</td>
-              </tr>
-              <tr>
-                  <td>Week 7 (Nov 11 - Nov 17)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Implement the Learning Management System (LMS) with course materials and AI-based learning path recommendations.</td>
-              </tr>
-              <tr>
-                  <td>Week 8 (Nov 18 - Nov 24)</td>
-                  <td>Day 1-3</td>
-                  <td>Learn Reinforcement Learning to build adaptive systems for skill assignments and personalized student growth paths.</td>
-              </tr>
-              <tr>
-                  <td>Week 8 (Nov 18 - Nov 24)</td>
-                  <td>Day 4-5</td>
-                  <td>Work on JWT Authentication and OAuth for secure access to the LMS and student profiles.</td>
-              </tr>
-              <tr>
-                  <td>Week 8 (Nov 18 - Nov 24)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Add advanced AI-based learning path predictions and personalize the system for students' needs.</td>
-              </tr>
-              <tr>
-                  <td>Week 9 (Nov 25 - Dec 1)</td>
-                  <td>Day 1-2</td>
-                  <td>Learn AWS Lambda or Google Cloud Functions for serverless computing to scale parts of your system.</td>
-              </tr>
-              <tr>
-                  <td>Week 9 (Nov 25 - Dec 1)</td>
-                  <td>Day 3-4</td>
-                  <td>Study Jest or Mocha for testing full stack applications.</td>
-              </tr>
-              <tr>
-                  <td>Week 9 (Nov 25 - Dec 1)</td>
-                  <td>Day 5-7</td>
-                  <td>Project: Implement unit testing for API routes and student profile updates using Jest.</td>
-              </tr>
-              <tr>
-                  <td>Week 10 (Dec 2 - Dec 8)</td>
-                  <td>Day 1-2</td>
-                  <td>Explore CI/CD pipelines with GitHub Actions or Jenkins to automate deployment.</td>
-              </tr>
-              <tr>
-                  <td>Week 10 (Dec 2 - Dec 8)</td>
-                  <td>Day 3-4</td>
-                  <td>Deep dive into Convolutional Neural Networks (CNNs) for image-based AI projects like student ID recognition or coursework submissions.</td>
-              </tr>
-              <tr>
-                  <td>Week 10 (Dec 2 - Dec 8)</td>
-                  <td>Day 5-7</td>
-                  <td>Project: Deploy the student profile management system on AWS, Azure, or Google Cloud using CI/CD.</td>
-              </tr>
-              <tr>
-                  <td>Week 11 (Dec 9 - Dec 15)</td>
-                  <td>Day 1-3</td>
-                  <td>Implement WebSockets or GraphQL subscriptions for real-time attendance and grade updates in the system.</td>
-              </tr>
-              <tr>
-                  <td>Week 11 (Dec 9 - Dec 15)</td>
-                  <td>Day 4-5</td>
-                  <td>Optimize AI models for speed and accuracy using techniques like model pruning or quantization.</td>
-              </tr>
-              <tr>
-                  <td>Week 11 (Dec 9 - Dec 15)</td>
-                  <td>Day 6-7</td>
-                  <td>Project: Implement real-time notifications and updates for students on their performance, attendance, and skill progress.</td>
-              </tr>
-              <tr>
-                  <td>Week 12 (Dec 16 - Dec 22)</td>
-                  <td>Day 1-2</td>
-                  <td>Refactor code for better scalability and modularity (using Microservices architecture where applicable).</td>
-              </tr>
-              <tr>
-                  <td>Week 12 (Dec 16 - Dec 22)</td>
-                  <td>Day 3-4</td>
-                  <td>Conduct final testing and performance optimization (e.g., lazy loading, code splitting in React).</td>
-              </tr>
-              <tr>
-                  <td>Week 12 (Dec 16 - Dec 22)</td>
-                  <td>Day 5-7</td>
-                  <td>Project: Prepare final documentation, user guides, and showcase a polished version of the Student Profile Management System.</td>
-              </tr>
-              <tr>
-                  <td>Week 13 (Dec 23 - Dec 30)</td>
-                  <td>Day 1-2</td>
-                  <td>Polish your GitHub repository, update the README, and prepare the portfolio.</td>
-              </tr>
-              <tr>
-                  <td>Week 13 (Dec 23 - Dec 30)</td>
-                  <td>Day 3-5</td>
-                  <td>Mock interviews focusing on trending tech topics (AI, Full Stack, Cloud, DevOps).</td>
-              </tr>
-              <tr>
-                  <td>Week 13 (Dec 23 - Dec 30)</td>
-                  <td>Day 6-7</td>
-                  <td>Final project deployment and submission of internship applications.</td>
-              </tr>
-          </tbody>
-      </table>
-    
-    </div>
+    <script>
+        // Show the CEO contact form modal
+        function openModal() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
 
-    <footer>
-      <p>&copy; 2024 Next Afield | All rights reserved.</p>
-  </footer>
+        // Close the CEO contact form modal
+        function closeModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // Show the Board details modal
+        document.getElementById('boardDetailsBtn').addEventListener('click', function () {
+            document.getElementById('boardModal').style.display = 'flex';
+        });
+
+        // Close the Board details modal
+        function closeBoardModal() {
+            document.getElementById('boardModal').style.display = 'none';
+        }
+
+        // Handle joining a board meeting
+        function joinMeeting() {
+            alert('Joining the board meeting...');
+        }
+
+        // Handle logout
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            alert('You have logged out');
+        });
+    </script>
+
 </body>
 </html>
