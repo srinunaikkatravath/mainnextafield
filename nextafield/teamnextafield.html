@@ -207,6 +207,10 @@
           } else if (userRole === "board_of_director") {
             window.location.href = `employee/boardofdirector/${loggedInUser}.html`; // Redirect to board of director page in 'boardofdirector' folder
           }
+          else if (user.role === "intern") {
+              // Intern redirection based on user email
+              window.location.href = `intern/${loggedInUser}.html`; // Redirect to intern page in 'intern' folder
+            }
         }
       });
         
