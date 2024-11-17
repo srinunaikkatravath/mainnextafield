@@ -153,7 +153,8 @@
         { email: "NAEMP24010", password: "employee123", role: "employee", name: "Employee 10" },
         { email: "NABOD24001", password: "director123", role: "board_of_director", name: "Board Director 1" },
         { email: "NABOD24002", password: "director123", role: "board_of_director", name: "Board Director 2" },
-        { email: "NAI24001", password: "intern123", role: "intern", name: "Intern 1" }  // Added Intern credentials
+        { email: "NAINT24001", password: "intern123", role: "intern", name: "Intern 1" }, // Intern login
+        { email: "NAINT24002", password: "intern123", role: "intern", name: "Intern 2" }  // Another intern login
       ];
     
       function login() {
@@ -175,14 +176,11 @@
             if (user.role === "admin") {
               window.location.href = "admin/index.html"; // Admin redirection
             } else if (user.role === "employee") {
-              // Employee redirection based on user email, simplified path
-              window.location.href = `employee/${user.email}.html`; // Redirect to employee page in 'employee' folder
+              window.location.href = `employee/${user.email}.html`; // Employee redirection
             } else if (user.role === "board_of_director") {
-              // Board of Director redirection based on user email, simplified path
-              window.location.href = `employee/boardofdirector/${user.email}.html`; // Redirect to board of director page in 'boardofdirector' folder
+              window.location.href = `employee/boardofdirector/${user.email}.html`; // Board of Director redirection
             } else if (user.role === "intern") {
-              // Intern redirection based on user email
-              window.location.href = `intern/${user.email}.html`; // Redirect to intern page in 'intern' folder
+              window.location.href = `intern/${user.email}.html`; // Intern redirection
             }
           }, 1000);
         } else {
@@ -190,11 +188,8 @@
           message.textContent = "Invalid credentials. Please try again.";
         }
       }
-
-      
     
       // Auto-check access (in case user accesses this page directly)
-      
       document.addEventListener("DOMContentLoaded", () => {
         const loggedInUser = sessionStorage.getItem("loggedInUser");
         const userRole = sessionStorage.getItem("userRole");
@@ -203,17 +198,14 @@
           if (userRole === "admin") {
             window.location.href = "admin/index.html"; // Admin redirection
           } else if (userRole === "employee") {
-            window.location.href = `employee/${loggedInUser}.html`; // Redirect to employee page in 'employee' folder
+            window.location.href = `employee/${loggedInUser}.html`; // Employee redirection
           } else if (userRole === "board_of_director") {
-            window.location.href = `employee/boardofdirector/${loggedInUser}.html`; // Redirect to board of director page in 'boardofdirector' folder
+            window.location.href = `employee/boardofdirector/${loggedInUser}.html`; // Board of Director redirection
+          } else if (userRole === "intern") {
+            window.location.href = `intern/${loggedInUser}.html`; // Intern redirection
           }
-          else if (user.role === "intern") {
-              // Intern redirection based on user email
-              window.location.href = `intern/${loggedInUser}.html`; // Redirect to intern page in 'intern' folder
-            }
         }
       });
-        
     </script>
     
   </body>
