@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Afield Careers</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .job-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .job-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-left: 4px solid var(--secondary);
+            cursor: pointer;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .job-card.selected {
+            background: linear-gradient(135deg, #f5f7fa, #e2e8f0);
+            border-left: 4px solid var(--success);
+        }
+        
+        .job-title {
+            font-size: 1.3rem;
+            margin: 0 0 10px;
+            color: var(--primary);
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .job-description {
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+            color: white;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .resume-upload {
+            border: 2px dashed #ddd;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .resume-upload:hover {
+            border-color: var(--secondary);
+            background-color: #f8fafc;
+        }
+        
+        .resume-upload i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .resume-upload input {
+            display: none;
+        }
+        
+        .document-processing {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+            text-align: center;
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .success {
+            color: var(--success);
+        }
+        
+        .warning {
+            color: var(--warning);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .job-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Next Afield Careers</h1>
+            <p>Join our team of innovators and shape the future</p>
+        </header>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+        
+        <!-- Page 1: Job Selection -->
+        <div class="page active" id="page1">
+            <h2>Select Your Desired Position</h2>
+            <p>Choose from our available job openings to begin your application</p>
+            
+            <div class="job-categories">
+                <div class="job-card" data-job="Software Engineer">
+                    <h3 class="job-title">Software Engineer</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>Remote</span>
+                        <span>Mid-Senior</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Develop and maintain software applications using modern programming languages and frameworks.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="Full Stack Developer">
+                    <h3 class="job-title">Full Stack Developer</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>Hybrid</span>
+                        <span>Mid Level</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Build end-to-end web applications with frontend and backend technologies.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="AI Research Engineer">
+                    <h3 class="job-title">AI Research Engineer</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>On-site</span>
+                        <span>Senior</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Research and develop cutting-edge AI algorithms and models.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="ML Developer">
+                    <h3 class="job-title">Machine Learning Developer</h3>
+                    <div class="job-meta">
+                        <span>Contract</span>
+                        <span>Remote</span>
+                        <span>Mid Level</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Implement and optimize machine learning models for production environments.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="Data Analyst">
+                    <h3 class="job-title">Data Analyst</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>Remote</span>
+                        <span>Entry-Mid</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Analyze complex datasets to derive business insights and support decision-making.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="Frontend Developer">
+                    <h3 class="job-title">Frontend Developer (UI/UX)</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>Hybrid</span>
+                        <span>Mid Level</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Create beautiful, responsive user interfaces with modern frontend technologies.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="Project Manager">
+                    <h3 class="job-title">Project Manager</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>On-site</span>
+                        <span>Senior</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Lead cross-functional teams to deliver projects on time and within budget.</p>
+                    </div>
+                </div>
+                
+                <div class="job-card" data-job="Agricultural Technologist">
+                    <h3 class="job-title">Agricultural Technologist</h3>
+                    <div class="job-meta">
+                        <span>Full-time</span>
+                        <span>Field</span>
+                        <span>Mid Level</span>
+                    </div>
+                    <div class="job-description">
+                        <p>Implement technology solutions for modern farming and crop management.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <div></div> <!-- Empty div for spacing -->
+                <button class="btn btn-primary" id="nextToPage2">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Page 2: Candidate Details -->
+        <div class="page" id="page2">
+            <h2>Your Information</h2>
+            <p>Please provide your details for the <span id="selectedJobTitle" style="font-weight:600;"></span> position</p>
+            
+            <div class="form-container">
+                <form id="candidateForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Current Address</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Years of Relevant Experience</label>
+                        <select id="experience" required>
+                            <option value="">Select</option>
+                            <option value="0-2">0-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="5-8">5-8 years</option>
+                            <option value="8+">8+ years</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills">Key Skills (comma separated)</label>
+                        <textarea id="skills" rows="3" placeholder="e.g., JavaScript, Python, Machine Learning, Project Management" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="coverLetter">Cover Letter</label>
+                        <textarea id="coverLetter" rows="5" placeholder="Explain why you're a good fit for this position..."></textarea>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn btn-secondary" id="backToPage1">Back</button>
+                <button class="btn btn-primary" id="nextToPage3">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Page 3: Resume Upload -->
+        <div class="page" id="page3">
+            <h2>Upload Your Resume</h2>
+            <p>For the <span id="resumeJobTitle" style="font-weight:600;"></span> position</p>
+            
+            <div class="form-container">
+                <div class="resume-upload" id="resumeDropZone">
+                    <i class="fas fa-file-upload"></i>
+                    <h3>Drag & Drop Your Resume Here</h3>
+                    <p>or</p>
+                    <button class="btn btn-secondary" id="browseFiles">Browse Files</button>
+                    <input type="file" id="resumeInput" accept=".pdf,.doc,.docx">
+                    <p class="file-info" id="fileInfo" style="margin-top:15px;display:none;">
+                        <i class="fas fa-file-alt"></i> <span id="fileName"></span> (<span id="fileSize"></span>)
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="portfolio">Portfolio/LinkedIn Profile (optional)</label>
+                    <input type="url" id="portfolio" placeholder="https://">
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn btn-secondary" id="backToPage2">Back</button>
+                <button class="btn btn-primary" id="submitApplication">Submit Application</button>
+            </div>
+        </div>
+        
+        <!-- Page 4: Document Processing -->
+        <div class="page" id="page4">
+            <div class="document-processing">
+                <div class="spinner"></div>
+                <h2>Analyzing Your Application</h2>
+                <p>We're reviewing your resume and qualifications for the <span id="processingJobTitle" style="font-weight:600;"></span> position</p>
+                <p>This may take a few moments...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Application Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-icon warning">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h2>Thank You, <span id="candidateName"></span></h2>
+            <p>We appreciate your application for the <strong id="resultJobTitle"></strong> position at Next Afield.</p>
+            <p>After careful evaluation of your experience and skills, we regret to inform you that your qualifications don't currently match our requirements for this role.</p>
+            <p>We encourage you to apply for future openings that may better align with your background. Your resume will remain in our database for consideration.</p>
+            <p>For any questions, please contact <strong>nextafield@gmail .com</strong></p>
+            <button class="btn btn-primary" id="closeModal">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const progressBar = document.getElementById('progressBar');
+        const jobCards = document.querySelectorAll('.job-card');
+        const nextToPage2 = document.getElementById('nextToPage2');
+        const nextToPage3 = document.getElementById('nextToPage3');
+        const backToPage1 = document.getElementById('backToPage1');
+        const backToPage2 = document.getElementById('backToPage2');
+        const submitApplication = document.getElementById('submitApplication');
+        const closeModal = document.getElementById('closeModal');
+        const selectedJobTitle = document.getElementById('selectedJobTitle');
+        const resumeJobTitle = document.getElementById('resumeJobTitle');
+        const processingJobTitle = document.getElementById('processingJobTitle');
+        const resultJobTitle = document.getElementById('resultJobTitle');
+        const candidateName = document.getElementById('candidateName');
+        const resumeDropZone = document.getElementById('resumeDropZone');
+        const resumeInput = document.getElementById('resumeInput');
+        const browseFiles = document.getElementById('browseFiles');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const resultModal = document.getElementById('resultModal');
+        
+        // Application data
+        let applicationData = {
+            jobTitle: '',
+            candidate: {},
+            resume: null
+        };
+        
+        // Initialize
+        updateProgressBar(25);
+        
+        // Job selection
+        jobCards.forEach(card => {
+            card.addEventListener('click', () => {
+                jobCards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                applicationData.jobTitle = card.dataset.job;
+            });
+        });
+        
+        // Navigation handlers
+        nextToPage2.addEventListener('click', () => {
+            if (!applicationData.jobTitle) {
+                alert('Please select a job position');
+                return;
+            }
+            
+            selectedJobTitle.textContent = applicationData.jobTitle;
+            navigateToPage(2);
+            updateProgressBar(50);
+        });
+        
+        nextToPage3.addEventListener('click', () => {
+            // Validate form
+            const form = document.getElementById('candidateForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Save candidate data
+            applicationData.candidate = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                country: document.getElementById('country').value,
+                experience: document.getElementById('experience').value,
+                skills: document.getElementById('skills').value,
+                coverLetter: document.getElementById('coverLetter').value
+            };
+            
+            resumeJobTitle.textContent = applicationData.jobTitle;
+            navigateToPage(3);
+            updateProgressBar(75);
+        });
+        
+        backToPage1.addEventListener('click', () => {
+            navigateToPage(1);
+            updateProgressBar(25);
+        });
+        
+        backToPage2.addEventListener('click', () => {
+            navigateToPage(2);
+            updateProgressBar(50);
+        });
+        
+        submitApplication.addEventListener('click', () => {
+            if (!resumeInput.files.length) {
+                alert('Please upload your resume');
+                return;
+            }
+            
+            // Save resume file
+            applicationData.resume = resumeInput.files[0];
+            
+            processingJobTitle.textContent = applicationData.jobTitle;
+            navigateToPage(4);
+            updateProgressBar(100);
+            
+            // Simulate document processing
+            setTimeout(() => {
+                showResultModal();
+            }, 3000);
+        });
+        
+        // Resume upload handling
+        browseFiles.addEventListener('click', () => {
+            resumeInput.click();
+        });
+        
+        resumeInput.addEventListener('change', handleFileSelect);
+        
+        // Drag and drop for resume
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            resumeDropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            resumeDropZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            resumeDropZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            resumeDropZone.style.borderColor = '#3498db';
+            resumeDropZone.style.backgroundColor = '#f8fafc';
+        }
+        
+        function unhighlight() {
+            resumeDropZone.style.borderColor = '#ddd';
+            resumeDropZone.style.backgroundColor = 'transparent';
+        }
+        
+        resumeDropZone.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            resumeInput.files = files;
+            handleFileSelect();
+        }
+        
+        function handleFileSelect() {
+            if (resumeInput.files.length) {
+                const file = resumeInput.files[0];
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileInfo.style.display = 'block';
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Result modal
+        function showResultModal() {
+            resultJobTitle.textContent = applicationData.jobTitle;
+            candidateName.textContent = applicationData.candidate.firstName;
+            resultModal.style.display = 'flex';
+        }
+        
+        closeModal.addEventListener('click', () => {
+            resultModal.style.display = 'none';
+            // Reset application
+            setTimeout(() => {
+                resetApplication();
+                navigateToPage(1);
+                updateProgressBar(25);
+            }, 500);
+        });
+        
+        // Helper functions
+        function navigateToPage(pageNumber) {
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+        }
+        
+        function updateProgressBar(percentage) {
+            progressBar.style.width = `${percentage}%`;
+        }
+        
+        function resetApplication() {
+            // Reset form data
+            document.getElementById('candidateForm').reset();
+            resumeInput.value = '';
+            fileInfo.style.display = 'none';
+            
+            // Reset selected job
+            jobCards.forEach(card => card.classList.remove('selected'));
+            applicationData = {
+                jobTitle: '',
+                candidate: {},
+                resume: null
+            };
+        }
+    </script>
+</body>
+</html>
